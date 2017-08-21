@@ -1,4 +1,5 @@
 src_filepath = node['centos']['command.execute.path']
+aws_runtime_path = '/root/.local/bin/aws'
 
 bash 'install_awscli' do
   cwd ::File.dirname(src_filepath)
@@ -11,4 +12,5 @@ bash 'install_awscli' do
    source ~/.bashrc
    aws --version
   EOH
+  not_if { ::File.exist?(aws_runtime_path) }
 end
