@@ -1,7 +1,6 @@
-# This recipe helps to download object from S3 bucket, keeping into consideration
-# EC2 is having Role to download object from S3
-
-
+# This recipe helps to download object from S3 bucket
+# Remove Line #8 and #9 and export AWS_ACCESS_KEY_ID=#{key_id} & export AWS_SECRET_ACCESS_KEY=#{access_key}
+# if EC2 is having Role to download S3 object
 
 s3_bucket_name = node['aws']['s3.bucket.name']
 s3_object_name = node['aws']['s3.object.name']
@@ -17,7 +16,7 @@ bash "download_#{s3_object_name}" do
    aws --version
     export AWS_ACCESS_KEY_ID=#{key_id}
     export AWS_SECRET_ACCESS_KEY=#{access_key}
-   aws s3 cp s3://#{s3_bucket_name}/#{s3_object_name} #{src_filepath}/#{s3_object_name}
+   aws s3 cp --region #{aws.s3.region} s3://#{s3_bucket_name}/#{s3_object_name} #{src_filepath}/#{s3_object_name}
   EOH
   not_if { ::File.exist?(extract_path) }
 end
