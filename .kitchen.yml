@@ -13,14 +13,16 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
   - name: centos-7.3
 
 suites:
   - name: default
     run_list:
-      - recipe[aws-s3-download::default]
+      - recipe[aws_s3_download::default]
     verifier:
       inspec_tests:
         - test/smoke/default
     attributes:
+      aws_s3_download:
+        key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+        access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
